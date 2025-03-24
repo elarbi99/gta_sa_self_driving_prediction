@@ -5,7 +5,7 @@ import time
 import keyboard
 import os
 
-screenshotFolder = "screenshots"
+trainingFolder = "training_data"
 incrementNumberFile="index.txt"
 wLabelsFile="wLabels.txt"
 aLabelsFile="aLabels.txt"
@@ -13,13 +13,13 @@ sLabelsFile="sLabels.txt"
 dLabelsFile="dLabels.txt"
 waLabelsFile="waLabels.txt"
 wdLabelsFile="wdLabels.txt"
-os.makedirs(screenshotFolder, exist_ok=True)
+os.makedirs(trainingFolder, exist_ok=True)
 def screenCapture(index,fileName,keyPressed):
     with mss.mss() as sct:
         monitors=sct.monitors
         monitor=monitors[1]
         screenshot=sct.grab(monitor)
-        mss.tools.to_png(screenshot.rgb,screenshot.size,output="screenshots/screenshot"+str(index)+".png")
+        mss.tools.to_png(screenshot.rgb,screenshot.size,output="training_data/screenshot"+str(index)+".png")
     fileWrite=open(fileName,"a")
     fileWrite.write("screenshot"+str(i)+".png" + " Label: "+keyPressed+"\n")
     fileWrite.close()
