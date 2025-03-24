@@ -11,6 +11,8 @@ wLabelsFile="wLabels.txt"
 aLabelsFile="aLabels.txt"
 sLabelsFile="sLabels.txt"
 dLabelsFile="dLabels.txt"
+waLabelsFile="waLabels.txt"
+wdLabelsFile="wdLabels.txt"
 os.makedirs(screenshotFolder, exist_ok=True)
 def screenCapture(index,fileName,keyPressed):
     with mss.mss() as sct:
@@ -34,6 +36,8 @@ fileCheck(wLabelsFile)
 fileCheck(aLabelsFile)
 fileCheck(sLabelsFile)
 fileCheck(dLabelsFile)
+fileCheck(waLabelsFile)
+fileCheck(wdLabelsFile)
 fileRead=open(incrementNumberFile,"r")
 indexNumber=fileRead.read().strip()
 fileRead.close()
@@ -43,10 +47,19 @@ if indexNumber.isdigit():
 else:
     i=1
 while True:
-    if keyboard.is_pressed("w"):
+    if keyboard.is_pressed("w") and keyboard.is_pressed("a"):
+        screenCapture(i,waLabelsFile,"wa")
+        i+=1
+        time.sleep(0.2)
+    elif keyboard.is_pressed("w") and keyboard.is_pressed("d"):
+        screenCapture(i,wdLabelsFile,"wd")
+        i+=1
+        time.sleep(0.2)
+    elif keyboard.is_pressed("w"):
         screenCapture(i,wLabelsFile,"w")
         i+=1
         time.sleep(0.2)
+   
     elif keyboard.is_pressed("a"):
         screenCapture(i,aLabelsFile,"a")
         i+=1
