@@ -18,11 +18,11 @@ labels = {
     "space": "6_space"
 }
 
-folder = "test"
+folder = "train"
 for v in labels.values():
     os.makedirs(join(folder, v), exist_ok=True)
 
-incrementNumberFile="index_test.txt"
+incrementNumberFile="index_train.txt" if folder == 'train' else 'index_test.txt'
 def screenCapture(index,img_folder):
     with mss.mss() as sct:
         monitors=sct.monitors
@@ -36,8 +36,7 @@ def screenCapture(index,img_folder):
 def fileCheck(fileName):
     if not os.path.exists(fileName) or os.stat(fileName).st_size ==0:
         fileWrite=open(fileName,"w")
-        if fileName == "index_test.txt":   
-            fileWrite.write("1")
+        fileWrite.write("1")
         fileWrite.close()
 fileCheck(incrementNumberFile)
 fileRead=open(incrementNumberFile,"r")
