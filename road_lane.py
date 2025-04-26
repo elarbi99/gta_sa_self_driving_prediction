@@ -44,10 +44,9 @@ def is_on_road(road_mask):
     """Check if the car (center bottom of image) is on the road."""
     h, w = road_mask.shape
     roi_y_start = int(h * 0)
-    roi_y_end = int(h * 0.9)
+    roi_y_end = int(h * 0.4)
     roi_x_center = w // 2
-    roi_width = w // 6
-
+    roi_width = w // 10
     roi = road_mask[roi_y_start:roi_y_end, roi_x_center - roi_width//2 : roi_x_center + roi_width//2]
     road_ratio = np.sum(roi == 255) / roi.size
 
@@ -57,8 +56,9 @@ def recover_towards_road(road_mask):
     """Decide whether to turn left or right based on road location."""
     h, w = road_mask.shape
     roi_y_start = int(h * 0)
-    roi_y_end = int(h * 0.9)
+    roi_y_end = int(h * 0.6)
     roi_x_center = w // 2
+    # roi_width = w // 6
 
     left_roi = road_mask[roi_y_start:roi_y_end, :roi_x_center]
     right_roi = road_mask[roi_y_start:roi_y_end, roi_x_center:]

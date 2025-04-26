@@ -12,6 +12,7 @@ import cv2
 import keyboard
 import time
 from PIL import Image
+from road_lane import get_road_mask, is_on_road, recover_towards_road
 
 actions = {
     0: ["w"],
@@ -72,6 +73,8 @@ def main():
         if keyboard.is_pressed("q"):
             started = True
         if keyboard.is_pressed("esc"):
+            for id in ['w', 'a', 's', 'd', 'space']:
+                keyboard.release(id)
             break
         if not started: continue
         img = getimage()
@@ -85,12 +88,18 @@ def main():
             presskey([a1,a2])
             time.sleep(1)
         else:
-            tr_img = transform(img).to(device)
-            outputs = model(tr_img[None])
-            _, predicted = outputs.max(1)
-
-            presskey(actions[predicted.item()])
-            time.sleep(0.2)
+            mask = get_road_mask(np.array(img))
+            if not is_on_road(mask):
+                doact = recover_towards_road(mask)
+                print(doact)
+                presskey(actions[doact])
+                time.sleep(0.001)
+            else:
+                tr_img = transform(img).to(device)
+                outputs = model(tr_img[None])
+                _, predicted = outputs.max(1)
+                presskey(actions[predicted.item()])
+                time.sleep(0.2)
         i+=1
 if __name__ == '__main__':
     main()
